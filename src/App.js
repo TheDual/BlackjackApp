@@ -1,24 +1,34 @@
-import logo from './logo.svg';
+import React from 'react'
 import './App.css';
+import Board from './components/Board';
+import BoardPc from './components/BoardPc';
+import Axios from 'axios'
+import { DeckProvider } from './DeckContext';
+import AppContext from './Context/AppContext';
+
 
 function App() {
+
+
+
+  // useEffect(async () => {
+  //   await Axios.get(`https://deckofcardsapi.com/api/deck/new/`)
+  //     .then(res => (res && res.data) || {})
+  //     .then(data => {
+  //       console.log(data);
+  //       setDeck(setDeck);
+  //     })
+  //     .catch(err => console.log(err))
+  // }, []);
+
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+
+      <BoardPc />
+      <Board />
+
+    </>
   );
 }
 

@@ -1,0 +1,20 @@
+.board{
+    display: flex;
+    width: 100%;
+    height: 50vh;
+}
+
+.buttons {
+    display: flex;
+    align-items: center;
+    position: absolute;
+    bottom: 0;
+    padding: 10px 10px;
+    height: 10vh;  
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.btn:last-of-type{
+    margin-left: 25px;
+}

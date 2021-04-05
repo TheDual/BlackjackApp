@@ -13,8 +13,8 @@
     background: linear-gradient(to bottom, #F2C255, #A67A19);
     height: fit-content;
     box-shadow: 10px var(--primary);
-    min-width: 200px;
+    width: 100%;
     font-weight: bold;
+    font-size: 1.2rem;
     color: var(--background);
-
 }

@@ -1,6 +1,5 @@
 import React, { createContext, useReducer, useEffect, useState } from "react"
 import Axios from 'axios'
-import Outcome from "../components/Outcome"
 
 
 const Context = createContext()
@@ -16,7 +15,7 @@ export const getCardValue = (card) => {
     let val = parseInt(card.value)
     if (!isNaN(val))
         return val
-    if (card.value == 'ACE')
+    if (card.value === 'ACE')
         return 11
     return 10
 }
@@ -36,7 +35,7 @@ export const handleScore = (deck) => {
 
         for (let i = 0; i < deck.cards.length; i++) {
             result = getCardValue(deck.cards[i])
-            if (result == 11)
+            if (result === 11)
                 aces_count++
             scr += result
         }
@@ -127,7 +126,7 @@ Context.Provider = (Provider => props => {
         let deck = { ...state.myCards }
         setScore_value(handleScore(deck))
 
-        if ((score_value == 21) && (state.myCards.cards.length == 2)) {
+        if ((score_value === 21) && (state.myCards.cards.length === 2)) {
             setPlayerFinished(true)
             setGameOver(true)
         }

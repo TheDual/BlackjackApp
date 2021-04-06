@@ -4,7 +4,6 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    border: 1px solid red;
 }
 
 .score {
@@ -21,6 +20,10 @@
 
 .board:last-of-type .score{
     margin-top: auto;
+}
+
+.board:last-of-type .cards{
+    margin-top: 15px;
 }
 
 .score label{
@@ -46,10 +49,44 @@
 }
 
 .end-game{
-    border: 1px solid red;
     width: 40%;
     height: 20%;
     display: flex;
     margin-top: auto;
+    animation: slide 600ms ease-in-out forwards;
 }
 
+@keyframes slide {
+    0%{
+        transform: translateX(-200%);
+    }
+    80%{
+        transform: translateX(10%);
+    }
+    100%{
+        transform: none;
+    }
+}
+
+.board:first-of-type .card{
+    animation: slide_from_top 400ms ease-in-out;
+}
+
+@keyframes slide_from_top {
+    0%{
+        transform: translate(-200%, -50%) rotate(-30deg);
+        opacity: 0;
+    }
+}
+
+
+.board:last-of-type .card{
+    animation: slide_from_bottom 400ms ease-in-out;
+}
+
+@keyframes slide_from_bottom {
+    0%{
+        transform: translate(200%, 50%) rotate(-30deg);
+        opacity: 0;
+    }
+}

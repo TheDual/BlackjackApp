@@ -1,9 +1,17 @@
+:root{
+  --react: #60dcfbb3;
+  --yellow1: #F2C255;
+  --yellow2: #A67A19;
+  --background: #282C34;
+}
+
 *{
   margin: 0;
   padding: 0;
   box-sizing: border-box;
   font-size: 20px;
 }
+
 
 #root{
   height: 100vh;
@@ -15,7 +23,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #282c34;
+  background-color: var(--background)
   
 }
 

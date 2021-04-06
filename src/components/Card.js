@@ -1,12 +1,10 @@
 import React from 'react'
 import './Card.css'
-import { SingleCard, CardImage } from './styled'
 
-
-const Card = ({ value }) => {
+const Card = props => {
     return (
-        <div className='card'>
-            <img src={value} alt="Card" />
+        <div className={`card ${props.className}`}>
+            <img src={props.value} alt="Card" />
         </div>
     )
 }

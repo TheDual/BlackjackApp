@@ -1,6 +1,7 @@
 import React, { useContext, useState } from 'react';
 import './Board.css';
 import './Button.css';
+import './FlipCard.css';
 import Button from './Button';
 import Score from './Score';
 import Card from './Card';
@@ -8,20 +9,18 @@ import './Card.css';
 import AppContext, { ACTIONS } from '../Context/AppContext'
 import useInterval from 'react-useinterval'
 
-var res = null
+
 const Board = props => {
-    const { myCards, score_value, pc_score_value, handleDrawCard, pcCards, isPaused, setPaused } = useContext(AppContext)
+    const { myCards, score_value, pc_score_value, handleDrawCard, pcCards, isPaused, setPaused, setPlayerFinished, playerFinished, setGameOver } = useContext(AppContext)
 
     const intervalRef = useInterval(() => {
-        if ((pc_score_value < 17) && (pc_score_value < score_value))
+        if ((pc_score_value < score_value) && pc_score_value < 21)
             handleDrawCard(ACTIONS.SET_PC_CARDS, pcCards)
         else {
             setPaused(true)
-            console.log("dDDsa")
+            setGameOver(true)
         }
-
-    }, isPaused ? null : 1500)
-
+    }, isPaused ? null : 1000)
 
     return (
         <div className='board'>
@@ -32,12 +31,22 @@ const Board = props => {
             </div>
 
             <Score value={score_value} />
+            {
+                !playerFinished ?
+                    <div className='buttons'>
+                        <Button onClick={() => { handleDrawCard(ACTIONS.SET_MY_CARDS, myCards) }}>Hit</Button>
+                        <Button onClick={() => {
+                            setPaused(false)
+                            setPlayerFinished(true)
+                        }}>Stand</Button>
+                    </div>
+                    :
+                    <div className='buttons'>
+                        <Button onClick={() => { window.location.reload() }}>Play Again</Button>
+                    </div>
+            }
 
-            <div className='buttons'>
-                <Button onClick={() => { handleDrawCard(ACTIONS.SET_MY_CARDS, myCards) }}>Hit</Button>
-                <Button onClick={() => { setPaused(!isPaused) }}>Stand</Button>
-            </div>
-        </div >
+        </div>
     )
 }
 

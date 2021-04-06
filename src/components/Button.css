@@ -1,20 +1,29 @@
-:root{
-    --primary: #5589F2;
-    --secondary: #73A1FF;
-    --danger: #F2C255;
-    --background: #282C34;
-}
-
 .btn {
     padding: 15px 20px;
     outline: none;
     border: none;
     border-radius: 10px;
-    background: linear-gradient(to bottom, #F2C255, #A67A19);
+    background: linear-gradient(to bottom, var(--yellow1), var(--yellow2));
     height: fit-content;
-    box-shadow: 10px var(--primary);
+    box-shadow: 10px var(--react);
     width: 100%;
     font-weight: bold;
     font-size: 1.2rem;
     color: var(--background);
+}
+
+.btn:hover{
+    cursor: pointer;
+    box-shadow: 0 5px 10px var(--react);
+    text-shadow: 1px 2px #000;
+}
+
+.btn:hover, btn:focus{
+    cursor: pointer;
+    box-shadow: 0 5px 3px var(--react);
+}
+
+.btn:active{
+    cursor: pointer;
+    box-shadow: 0 5px 25px var(--react);
 }

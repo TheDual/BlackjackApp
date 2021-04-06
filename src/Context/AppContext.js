@@ -1,5 +1,6 @@
 import React, { createContext, useReducer, useEffect, useState } from "react"
 import Axios from 'axios'
+import Outcome from "../components/Outcome"
 
 
 const Context = createContext()
@@ -7,7 +8,8 @@ const Context = createContext()
 export const ACTIONS = {
     SET_DECK: "SET_DECK",
     SET_MY_CARDS: "SET_MY_CARDS",
-    SET_PC_CARDS: "SET_PC_CARDS"
+    SET_PC_CARDS: "SET_PC_CARDS",
+    SET_OUTCOME: "SET_OUTCOME",
 }
 
 export const getCardValue = (card) => {
@@ -24,6 +26,7 @@ const updateCards = (mycards, card) => {
     mycards.remaining = card.remaining
     return mycards
 }
+
 
 export const handleScore = (deck) => {
     if (deck.cards != null) {
@@ -64,6 +67,9 @@ Context.Provider = (Provider => props => {
                 case ACTIONS.SET_PC_CARDS:
                     return { ...state, pcCards: action.value }
 
+                case ACTIONS.SET_OUTCOME:
+                    return { ...state, gameOutcome: action.value }
+
                 default:
                     return state
             }
@@ -72,12 +78,16 @@ Context.Provider = (Provider => props => {
             myDeck: [],
             myCards: [],
             pcCards: [],
+            gameOutcome: null,
             ...value
         }
     )
     const [score_value, setScore_value] = useState(0)
     const [pc_score_value, setPc_score_value] = useState(0)
-    const [isPaused, setPaused] = useState(false)
+    const [isPaused, setPaused] = useState(true)
+    const [playerFinished, setPlayerFinished] = useState(false)
+    const [gameOver, setGameOver] = useState(false)
+
 
 
     useEffect(() => {
@@ -116,18 +126,48 @@ Context.Provider = (Provider => props => {
     useEffect(() => {
         let deck = { ...state.myCards }
         setScore_value(handleScore(deck))
+
+        if ((score_value == 21) && (state.myCards.cards.length == 2)) {
+            setPlayerFinished(true)
+            setGameOver(true)
+        }
+        if (score_value > 21)
+            setGameOver(true)
+
     }, [{ ...state.myCards }])
 
     useEffect(() => {
         let deck = { ...state.pcCards }
         setPc_score_value(handleScore(deck))
+        if (pc_score_value > 21) {
+            setGameOver(true)
+        }
     }, [{ ...state.pcCards }])
 
     useEffect(() => {
-        let pc_score = state.pc_score_value
-        let my_score = state.score_value
-    }, [score_value, pc_score_value])
+        //BUSTED
+        if (score_value > 21) {
+            dispatch({
+                type: ACTIONS.SET_OUTCOME,
+                value: 0
+            })
+            setPlayerFinished(true)
+        }
 
+        //PC BUSTED
+        if (pc_score_value > 21)
+            dispatch({
+                type: ACTIONS.SET_OUTCOME,
+                value: 1
+            })
+        //CALCULATE RESULT
+        if ((isPaused && playerFinished) && state.gameOutcome === null) {
+            dispatch({
+                type: ACTIONS.SET_OUTCOME,
+                value: getOutcome()
+            })
+        }
+    }, [gameOver, state.gameOutcome])
 
 
     const handleDrawCard = (action, cards) => {
@@ -142,6 +182,17 @@ Context.Provider = (Provider => props => {
             .catch(err => console.log(err))
     }
 
+    const getOutcome = () => {
+        if (score_value != pc_score_value) {
+            if ((state.myCards.cards.length == 2) && (score_value == 21))
+                return 5 //BlACKJACK
+            if (score_value > pc_score_value)
+                return 2 // WIN
+            return 3 // LOSE
+        }
+        return 4 // DRAW
+    }
+
 
     return <Provider value={{
         ...state,
@@ -150,6 +201,10 @@ Context.Provider = (Provider => props => {
         pc_score_value,
         isPaused,
         setPaused,
+        setPlayerFinished,
+        playerFinished,
+        gameOver,
+        setGameOver,
         handleDrawCard
 
     }}>

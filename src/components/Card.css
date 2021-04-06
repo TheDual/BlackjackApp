@@ -2,7 +2,7 @@
     width: 100%;
     height: 100%;
     border-radius: 10px;
-    box-shadow: 0 0 8px rgba(97, 219, 251, 0.7);
+    box-shadow: 0 0 9px var(--react);
 }
 
 .card{
@@ -17,5 +17,6 @@
     height: 60%;
     display: flex;
     justify-content: center;
-    
 }
+
+

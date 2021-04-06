@@ -1,6 +1,4 @@
 import React from 'react'
-import AppContext from '../Context/AppContext'
-
 
 export const Score = props => {
 
